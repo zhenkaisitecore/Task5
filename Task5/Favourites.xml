@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Favourites>
+  <Favourite>
+    <User>1800528</User>
+    <ImageName>Cat 1</ImageName>
+  </Favourite>
+  <Favourite>
+    <User>1800528</User>
+    <ImageName>Cat 2</ImageName>
+  </Favourite>
+  <Favourite>
+    <User>1800528</User>
+    <ImageName>Cat 4</ImageName>
+  </Favourite>
+  <Favourite>
+    <User>1800528</User>
+    <ImageName>Cat 7</ImageName>
+  </Favourite>
+  <Favourite>
+    <User>101010</User>
+    <ImageName>Dog 2</ImageName>
+  </Favourite>
+</Favourites>

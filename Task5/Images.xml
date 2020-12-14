@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Pets>
+
+  <Cat>
+    <Name>Cat 1</Name>
+    <Url>cat1.jpg</Url>
+    <Alt>This is cat 1</Alt>
+  </Cat>
+
+  <Cat>
+    <Name>Cat 2</Name>
+    <Url>cat2.jpg</Url>
+    <Alt>This is cat 2</Alt>
+  </Cat>
+
+  <Cat>
+    <Name>Cat 3</Name>
+    <Url>cat3.jpg</Url>
+    <Alt>This is cat 3</Alt>
+  </Cat>
+
+  <Cat>
+    <Name>Cat 4</Name>
+    <Url>cat4.jpg</Url>
+    <Alt>This is cat 4</Alt>
+  </Cat>
+
+  <Cat>
+    <Name>Cat 5</Name>
+    <Url>cat5.jpg</Url>
+    <Alt>This is cat 5</Alt>
+  </Cat>
+
+  <Cat>
+    <Name>Cat 6</Name>
+    <Url>cat6.jpg</Url>
+    <Alt>This is cat 6</Alt>
+  </Cat>
+
+  <Cat>
+    <Name>Cat 7</Name>
+    <Url>cat7.jpg</Url>
+    <Alt>This is cat 7</Alt>
+  </Cat>
+  
+  <Dog>
+    <Name>Dog 1</Name>
+    <Url>dog1.jpg</Url>
+    <Alt>This is dog 1</Alt>
+  </Dog>
+
+  <Dog>
+    <Name>Dog 2</Name>
+    <Url>dog2.jpg</Url>
+    <Alt>This is dog 2</Alt>
+  </Dog>
+
+  <Dog>
+    <Name>Dog 3</Name>
+    <Url>dog3.jpg</Url>
+    <Alt>This is dog 3</Alt>
+  </Dog>
+
+</Pets>

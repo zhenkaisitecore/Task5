@@ -1,0 +1,156 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+@using Task5.Models
+@model System.Web.Security.MembershipUser
+
+@if (Model != null)
+{
+    <p>Name: @Model.UserName</p>
+    <p>Preferences: @HttpContext.Current.Profile.GetPropertyValue("Preferences").ToString()</p>
+}
+else
+{
+    <p>You need to login!</p>
+}
+
+@if (ViewData["Images"] != null)
+{
+    <ul class="gallery">
+        @foreach (Image img in ViewData["Images"] as List<Image>)
+        {
+            <li>
+                <img src='@string.Format("/Images/{0}s/{1}", HttpContext.Current.Profile.GetPropertyValue("Preferences").ToString(), img.Url)' alt='@img.Alt' title='@img.Name' />
+            </li>
+        }
+    </ul>
+
+}
+
+<div id="commentSection">
+    <h3>Comment for <span id="commentTitle"></span></h3>
+    <input type="hidden" id="imageName" />
+    <input type="button" id="btnFav" value="Add to favourite!" style="visibility:hidden;" />
+    @using (Html.BeginForm("AddComment", "Comment", FormMethod.Post, new { @id = "AddCommentForm" }))
+    {
+        <label for="tbxComment">Comment:</label> <br />
+        <textarea name="tbxComment" id="tbxComment"></textarea>
+        <input type="submit" value="Post" />
+    }
+    <div id="commentDiv"></div>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+        var lastSelected = null;
+        var commentSection = $("#commentSection");
+        var commentTitle = $("#commentTitle");
+        var commentsDiv = $("#commentDiv");
+        var imageNameField = $("#imageName");
+        var tbxComment = $("#tbxComment");
+        var btnFav = $("#btnFav");
+
+        $("img").click(function (e) {
+            e.preventDefault();
+            this.className = "selected";
+            if (lastSelected != null) lastSelected.className = "";
+            lastSelected = this;
+            imageNameField.val(this.getAttribute("title"));
+            updateComments(this.getAttribute("title"));
+
+            btnFav.css("visibility", "visible");
+
+            $.ajax({
+                method: "GET",
+                url: "/Comment/CheckFavourite",
+                async: true,
+                data: { "ImageName": this.getAttribute("title") },
+                success: (isFav) => {
+                    updateFav(isFav);
+                }
+            });
+        });
+
+        function updateComments(petName) {
+            commentsDiv.empty();
+            commentTitle.empty();
+            commentTitle.append(petName);
+            commentsDiv.append("Loading comments");
+            $.ajax({
+                method: "GET",
+                url: "/Comment/GetComments",
+                data: { "name": petName },
+                beforeSend: () => commentsDiv.append("Loading comments"),
+                success: function (data) {
+                    commentsDiv.empty();
+                    data.forEach(function (comment) {
+                        //to be continued...
+                        commentsDiv.append(`<p>${comment.Message}</p>`)
+                    });
+                }
+            });
+        }
+
+        $("#AddCommentForm").submit(function (e) {
+            e.preventDefault();
+            console.log(tbxComment.val());
+            if (tbxComment.val() == "") return;
+            $.ajax({
+                method: "POST",
+                url: "/Comment/AddComment",
+                data: { "ImageName": imageNameField.val(), "Message": tbxComment.val() },
+                beforeSend: () => tbxComment.val(""),
+                success: function (isSuccess) {
+                    if (isSuccess) {
+                        updateComments(imageNameField.val());
+                    } else {
+                        alert("Failed to post comment!");
+                    }
+                }
+            });
+        });
+
+        btnFav.click(function (e) {
+            e.preventDefault();
+            if (imageNameField.val() == "") return;
+            $.ajax({
+                method: "POST",
+                url: "/Comment/AddFavourite",
+                data: { ImageName: imageNameField.val() },
+                success: function (isAlreadyFav) {
+                    updateFav(isAlreadyFav);
+                }
+            });
+        });
+
+        function updateFav(isAlreadyFav) {
+            if (isAlreadyFav) {
+                btnFav.val("This is your favorite!");
+                btnFav.attr("disabled", true);
+            } else {
+                btnFav.val("Add to favourite!");
+                btnFav.attr("disabled", false);
+            }
+        }
+    </script>
+
+    <style>
+        .selected {
+            transform: scale(1.3,1.3);
+        }
+
+        .gallery {
+            list-style: none;
+            margin: 2em 2em;
+        }
+
+        .gallery li {
+            display: inline;
+            margin: 2em 1em;
+        }
+
+        
+    </style>
+}
